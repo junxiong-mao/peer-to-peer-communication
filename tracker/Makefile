@@ -1,0 +1,21 @@
+COMPILER = g++
+TRACKERMAIN = tracker.cpp
+TRACKEROTHER = tracker_lib.cpp
+OBJS = ../socket.o
+
+CFLAGS = -g -Wall
+TRACKERSRCS = $(TRACKERMAIN) $(TRACKEROTHER)
+
+TRACKEROBJS = $(TRACKERSRCS:.cpp=.o) $(OBJS) 
+
+TRACKERTARGET = $(TRACKERMAIN:.cpp=)
+
+%.o: %.cpp
+	$(COMPILER) $(CFLAGS) -o $@ -c $<
+
+all: $(TRACKERTARGET)
+
+$(TRACKERTARGET): $(TRACKEROBJS)
+	$(COMPILER) $(TRACKEROBJS) $(CFLAGS) -o $(TRACKERTARGET) -lpthread
+clean:
+	rm -f $(TRACKEROBJS) $(TRACKERTARGET)
